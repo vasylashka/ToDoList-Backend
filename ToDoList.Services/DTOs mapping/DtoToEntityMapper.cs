@@ -13,5 +13,6 @@ public class DtoToEntityMapper : Profile
     {
         CreateMap<TaskCreateDto, Domain.Entities.Task>();
         CreateMap<TaskUpdateDto, Domain.Entities.Task>();
+        CreateMap<Domain.Entities.Task, TaskDto>();
     }
 }

@@ -8,11 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoList.Domain\ToDoList.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Services\Realizations\" />
+    <ProjectReference Include="..\ToDoList.Persistance\ToDoList.Persistance.csproj" />
   </ItemGroup>
 
   <ItemGroup>
