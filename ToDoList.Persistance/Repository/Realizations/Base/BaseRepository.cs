@@ -13,9 +13,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _dbContext = context;
     }
 
-    public T Create(T entity)
+    public void Create(T entity)
     {
-        return _dbContext.Set<T>().Add(entity).Entity;
+        _dbContext.Set<T>().Add(entity);
     }
 
     public void Delete(T entity)
@@ -23,7 +23,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _dbContext.Set<T>().Remove(entity);
     }
 
-    public async Task<IList<T>?> GetAllAsync()
+    public async Task<IReadOnlyCollection<T>> GetAllAsync()
     {
         return await _dbContext.Set<T>().ToListAsync();
     }
@@ -33,8 +33,8 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbContext.Set<T>().Where(expression).FirstOrDefaultAsync();
     }
 
-    public T Update(T entity)
+    public void Update(T entity)
     {
-        return _dbContext.Set<T>().Update(entity).Entity;
+        _dbContext.Set<T>().Update(entity);
     }
 }

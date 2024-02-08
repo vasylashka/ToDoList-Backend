@@ -1,6 +1,14 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ToDoList.API.Contracts_Mapping;
+using ToDoList.API.Middlewares;
 using ToDoList.Persistance;
+using ToDoList.Persistance.Repository.Interfaces.Base;
+using ToDoList.Persistance.Repository.Realizations.Base;
+using ToDoList.Services.DTOs_mapping;
+using ToDoList.Services.Services.Interfaces;
+using ToDoList.Services.Services.Realizations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +22,26 @@ builder.Services.AddDbContext<ToDoListDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton(new MapperConfiguration(x =>
+{
+    x.AddProfiles(new Profile[]
+    {
+        new ContractsToDtoMapping(),
+        new DtoToEntityMapper()
+    });
+}).CreateMapper());
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseMiddleware<GlobalExceptionHandler>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
