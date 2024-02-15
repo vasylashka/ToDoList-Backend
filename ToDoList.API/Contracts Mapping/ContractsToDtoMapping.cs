@@ -14,5 +14,6 @@ public class ContractsToDtoMapping : Profile
     {
         CreateMap<TaskCreateContract, TaskCreateDto>();
         CreateMap<TaskUpdateContract, TaskUpdateDto>();
+        CreateMap<TaskUpdateStatusContract, TaskUpdateStatusDto>();
     }
 }

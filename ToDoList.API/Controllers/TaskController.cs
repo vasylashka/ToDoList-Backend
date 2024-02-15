@@ -58,4 +58,13 @@ public class TaskController : ControllerBase
         var task = await _serviceManager.TaskService.GetTaskByIdAsync(id);
         return Ok(task);
     }
+
+    [HttpPatch]
+    [Route("{id}")]
+    public async Task<IActionResult> UpdateStatus(int id, TaskUpdateStatusContract request)
+    {
+        var dto = _mapper.Map<TaskUpdateStatusDto>(request);
+        await _serviceManager.TaskService.UpdateStatusAsync(id, dto);
+        return Ok();
+    }
 }

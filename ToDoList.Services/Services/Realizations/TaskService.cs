@@ -51,6 +51,18 @@ public class TaskService : ITaskService
         return _mapper.Map<TaskDto>(task);
     }
 
+    public async Task UpdateStatusAsync(int taskId, TaskUpdateStatusDto status)
+    {
+        var task = await _repositoryWrapper.TaskRepository.GetOneOrDefaultAsync(x => x.Id == taskId);
+        if (task == null)
+        {
+            throw new TaskNotFoundException(taskId);
+        }
+        task.Status = status.Status;
+        _repositoryWrapper.TaskRepository.Update(task);
+        await _repositoryWrapper.SaveChangesAsync();
+    }
+
     public async Task UpdateTaskAsync(int taskId, TaskUpdateDto taskUpdateDto)
     {
         var task = await _repositoryWrapper.TaskRepository.GetOneOrDefaultAsync(x => x.Id == taskId);
@@ -62,4 +74,6 @@ public class TaskService : ITaskService
         _repositoryWrapper.TaskRepository.Update(task);
         await _repositoryWrapper.SaveChangesAsync();
     }
+
+
 }

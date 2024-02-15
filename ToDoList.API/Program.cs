@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
 using ToDoList.API.Contracts_Mapping;
 using ToDoList.API.Middlewares;
 using ToDoList.Persistance;
@@ -37,6 +36,15 @@ builder.Services.AddSingleton(new MapperConfiguration(x =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(setup =>
+{
+    setup.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -47,6 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 
